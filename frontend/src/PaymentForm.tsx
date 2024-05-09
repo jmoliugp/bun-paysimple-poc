@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
+
+type PaymentFormFields = {
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cvv: string;
+  zipCode: string;
+};
 
 export const PaymentForm: React.FC = () => {
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryMonth, setExpiryMonth] = useState("");
-  const [expiryYear, setExpiryYear] = useState("");
-  const [cvv, setCvv] = useState("");
+  const [formData, setFormData] = useState<PaymentFormFields>({
+    cardNumber: "",
+    expiryMonth: "",
+    expiryYear: "",
+    cvv: "",
+    zipCode: "",
+  });
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = () => {
     const paymentData = {
-      cardNumber,
-      expirationDate: `${expiryMonth}/${expiryYear}`,
-      cvv,
+      cardNumber: formData.cardNumber,
+      expirationDate: `${formData.expiryMonth}/${formData.expiryYear}`,
+      cvv: formData.cvv,
+      zipCode: formData.zipCode,
     };
 
     window.PaySimple.createToken(paymentData, (result) => {
@@ -24,30 +44,41 @@ export const PaymentForm: React.FC = () => {
   };
 
   return (
-    <div className="   h-screen flex flex-col space-y-4 p-8">
-      <h1 className="text-2xl font-bold">Payment form</h1>
+    <div className="h-screen flex flex-col space-y-4 p-8">
+      <h1 className="text-2xl font-bold">Payment Form</h1>
       <input
-        value={cardNumber}
-        onChange={(e) => setCardNumber(e.target.value)}
+        name="cardNumber"
+        value={formData.cardNumber}
+        onChange={handleInputChange}
         placeholder="Card Number"
         className="p-2 border border-gray-300 rounded"
       />
       <input
-        value={expiryMonth}
-        onChange={(e) => setExpiryMonth(e.target.value)}
+        name="expiryMonth"
+        value={formData.expiryMonth}
+        onChange={handleInputChange}
         placeholder="Expiry Month (MM)"
         className="p-2 border border-gray-300 rounded"
       />
       <input
-        value={expiryYear}
-        onChange={(e) => setExpiryYear(e.target.value)}
+        name="expiryYear"
+        value={formData.expiryYear}
+        onChange={handleInputChange}
         placeholder="Expiry Year (YYYY)"
         className="p-2 border border-gray-300 rounded"
       />
       <input
-        value={cvv}
-        onChange={(e) => setCvv(e.target.value)}
+        name="cvv"
+        value={formData.cvv}
+        onChange={handleInputChange}
         placeholder="CVV"
+        className="p-2 border border-gray-300 rounded"
+      />
+      <input
+        name="zipCode"
+        value={formData.zipCode}
+        onChange={handleInputChange}
+        placeholder="Zip Code"
         className="p-2 border border-gray-300 rounded"
       />
       <button
