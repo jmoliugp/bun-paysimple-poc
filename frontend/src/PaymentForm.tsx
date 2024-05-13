@@ -19,6 +19,7 @@ let paysimplejs: {
     }) => void;
   };
 };
+
 getCheckoutToken().then((token) => {
   paysimplejs = loadPaysimpleJs({ token });
 });
@@ -45,9 +46,9 @@ export const PaymentForm: React.FC = () => {
     // Prevent the default submit behavior of the form.
     event.preventDefault();
 
-    const customerFormErrors = validateCustomerFormData(customerFormData);
-    setCustomerFormErrors(customerFormErrors);
-    if (Object.keys(customerFormErrors).length > 0) return;
+    // const customerFormErrors = validateCustomerFormData(customerFormData);
+    // setCustomerFormErrors(customerFormErrors);
+    // if (Object.keys(customerFormErrors).length > 0) return;
 
     const customer = {
       firstName: customerFormData.firstName,
