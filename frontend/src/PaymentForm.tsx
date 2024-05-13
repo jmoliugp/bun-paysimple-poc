@@ -1,15 +1,15 @@
-import React, { ChangeEvent, useState } from 'react';
-import { FormField } from './components/FormField';
-import { Separator } from './components/Separator';
-import { getCheckoutToken } from './networking/getCheckoutToken';
+import React, { ChangeEvent, useState } from "react";
+import { FormField } from "./components/FormField";
+import { Separator } from "./components/Separator";
+import { getCheckoutToken } from "./networking/getCheckoutToken";
 import {
-  MerchantFormState,
-  MerchantStateFieldErrors,
-  merchantFormSchemaInitialValues,
-} from './schemas';
-import { loadPaysimpleJs } from './utils/loadPaysimpleJs';
+  CustomerFormState,
+  CustomerStateFieldErrors,
+  customerFormSchemaInitialValues,
+  validateCustomerFormData,
+} from "./schemas";
+import { loadPaysimpleJs } from "./utils/loadPaysimpleJs";
 
-// TODO: Fix this type
 let paysimplejs: {
   send: {
     retrieveAccount: (arg0: {
@@ -24,50 +24,54 @@ getCheckoutToken().then((token) => {
 });
 
 export const PaymentForm: React.FC = () => {
-  const [merchantFormData, setMerchantFormData] = useState<MerchantFormState>(
-    merchantFormSchemaInitialValues
+  const [customerFormData, setCustomerFormData] = useState<CustomerFormState>(
+    customerFormSchemaInitialValues
   );
-  const [merchantFormErrors, setMerchantPaymentFormErrors] =
-    useState<MerchantStateFieldErrors>({});
+  const [customerFormErrors, setCustomerFormErrors] =
+    useState<CustomerStateFieldErrors>({});
 
-  const handleMerchantInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCustomerInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setMerchantFormData((prevState) => ({
+
+    setCustomerFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
 
-    setMerchantPaymentFormErrors((prev) => ({ ...prev, [name]: undefined }));
+    setCustomerFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   function onSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    // Prevent the default submit behavior of the form
+    // Prevent the default submit behavior of the form.
     event.preventDefault();
-    // Extract the customer info (first name, last name, email)
-    // from the form. These fields are required, and should be
-    // validated prior to calling 'retrieveAccount'
+
+    const customerFormErrors = validateCustomerFormData(customerFormData);
+    setCustomerFormErrors(customerFormErrors);
+    if (Object.keys(customerFormErrors).length > 0) return;
+
     const customer = {
-      firstName: merchantFormData.firstName,
-      lastName: merchantFormData.lastName,
-      email: merchantFormData.email,
+      firstName: customerFormData.firstName,
+      lastName: customerFormData.lastName,
+      email: customerFormData.email,
     };
+
     // Request the PaySimpleJS SDK to exchange the card data for a
     // payment token; pass in the customer info captured on the
-    // merchant form
+    // customer form.
     paysimplejs.send.retrieveAccount(customer);
   }
 
   return (
-    <div className="h-screen flex flex-col space-y-8 p-8">
+    <div className="flex flex-col h-screen p-8 space-y-8">
       <div className="flex flex-col space-y-4">
-        <h1 className="text-2xl font-bold">Merchant Checkout Page</h1>
-        {Object.keys(merchantFormData).map((field) => (
+        <h1 className="text-2xl font-bold">Customer Checkout Page</h1>
+        {Object.keys(customerFormData).map((field) => (
           <FormField
             key={field}
-            errors={merchantFormErrors}
-            field={field as keyof MerchantFormState}
-            formfields={merchantFormData}
-            handleInputChange={handleMerchantInputChange}
+            errors={customerFormErrors}
+            field={field as keyof CustomerFormState}
+            formfields={customerFormData}
+            handleInputChange={handleCustomerInputChange}
           />
         ))}
       </div>
@@ -78,7 +82,7 @@ export const PaymentForm: React.FC = () => {
         <button
           type="submit"
           onClick={onSubmit}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
         >
           Pay Now
         </button>
