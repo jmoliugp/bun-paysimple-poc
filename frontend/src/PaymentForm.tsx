@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FormField } from './components/FormField';
 import { Separator } from './components/Separator';
 import { getCheckoutToken } from './networking/getCheckoutToken';
@@ -8,6 +8,11 @@ import {
   merchantFormSchemaInitialValues,
 } from './schemas';
 import { loadPaysimpleJs } from './utils/loadPaysimpleJs';
+
+enum PaymentMode {
+  ACH = 'ach-key-enter',
+  CC = 'cc-key-enter',
+}
 
 // TODO: Fix this type
 let paysimplejs: {
@@ -30,6 +35,8 @@ export const PaymentForm: React.FC = () => {
   const [merchantFormErrors, setMerchantPaymentFormErrors] =
     useState<MerchantStateFieldErrors>({});
 
+  const [paymentMode, setPaymentMode] = useState(PaymentMode.CC);
+
   const handleMerchantInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setMerchantFormData((prevState) => ({
@@ -39,6 +46,12 @@ export const PaymentForm: React.FC = () => {
 
     setMerchantPaymentFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
+
+  useEffect(() => {
+    if (paysimplejs) {
+      paysimplejs.send.setMode(paymentMode);
+    }
+  }, [paymentMode]);
 
   function onSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     // Prevent the default submit behavior of the form
@@ -74,6 +87,15 @@ export const PaymentForm: React.FC = () => {
       <Separator />
       <div className="flex flex-col space-y-4">
         <h1 className="text-2xl font-bold">PaysimpleJS Payment Form</h1>
+        <button
+          onClick={() =>
+            setPaymentMode((prevState) =>
+              prevState === PaymentMode.CC ? PaymentMode.ACH : PaymentMode.CC
+            )
+          }
+        >
+          {paymentMode === PaymentMode.CC ? 'Credit Card' : 'ACH Account'}
+        </button>
         <div id="psjs"></div>
         <button
           type="submit"

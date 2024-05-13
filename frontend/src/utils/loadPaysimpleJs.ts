@@ -43,10 +43,9 @@ export function loadPaysimpleJs(auth: CheckoutToken) {
   paysimplejs.on('httpError', function (error) {
     // Add your error handling
   });
-  // Load the credit card key enter form
+
+  // Load the credit card key enter form as default
   paysimplejs.send.setMode('cc-key-enter');
-  // Add an event listener to your submit button
-  // document.querySelector('#sample-form').addEventListener('submit', onSubmit);
 
   // Called when the PaySimpleJS SDK retrieves the account info
   function onAccountRetrieved(accountInfo) {
