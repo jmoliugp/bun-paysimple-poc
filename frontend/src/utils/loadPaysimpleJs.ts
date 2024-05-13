@@ -1,13 +1,32 @@
+import { AccountInfo, sendPayment } from "../networking/sendPayment";
+
+declare global {
+  interface Window {
+    paysimpleJs: (config: unknown) => {
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      on: (event: string, callback: Function) => void;
+      send: {
+        setMode: (mode: string) => void;
+      };
+    };
+  }
+}
+
 type CheckoutToken = {
   token: string;
 };
 
-export function loadPaysimpleJs(auth: CheckoutToken) {
+export enum Mode {
+  CreditCard = "cc-key-enter",
+  ACH = "ach-key-enter",
+}
+
+export function loadPaysimpleJs(auth: CheckoutToken, mode = Mode.CreditCard) {
   // Initialize the PaySimpleJS SDK with the checkout token and styles
   // where auth = { token: <Checkout Token from your server> }
   const paysimplejs = window.paysimpleJs({
     // Element that will contain the iframe
-    container: document.querySelector('#psjs'),
+    container: document.querySelector("#psjs"),
     auth,
     // Allows entry of international postal codes if true
     bypassPostalCodeValidation: false,
@@ -18,20 +37,22 @@ export function loadPaysimpleJs(auth: CheckoutToken) {
     preventAutocomplete: false,
     styles: {
       body: {
-        backgroundColor: '#f9f9f9',
+        backgroundColor: "#f9f9f9",
       },
     },
   });
 
   // Configure a callback to complete the checkout after the
   // PaySimpleJS SDK retrieves the account
-  paysimplejs.on('accountRetrieved', onAccountRetrieved);
+  paysimplejs.on("accountRetrieved", onAccountRetrieved);
+
   // Listen to the 'formValidityChanged' event to enable
   // your submit button
   // where body = { validity: <'true' | 'false'> }
-  paysimplejs.on('formValidityChanged', function (body) {
+  paysimplejs.on("formValidityChanged", function (body) {
     // Add handling to enable your submit button
   });
+
   // Listen to the 'httpError' event
   // where error = {
   // errorKey: <'timeout' | 'bad_request' | 'server_error'
@@ -39,17 +60,17 @@ export function loadPaysimpleJs(auth: CheckoutToken) {
   // errors: <array of { field: <string>, message: <string> }>,
   // status: <number - http status code returned>
   // }
-
-  paysimplejs.on('httpError', function (error) {
+  paysimplejs.on("httpError", function (error) {
     // Add your error handling
   });
+
   // Load the credit card key enter form
-  paysimplejs.send.setMode('cc-key-enter');
+  paysimplejs.send.setMode(mode);
+
   // Add an event listener to your submit button
   // document.querySelector('#sample-form').addEventListener('submit', onSubmit);
-
   // Called when the PaySimpleJS SDK retrieves the account info
-  function onAccountRetrieved(accountInfo) {
+  function onAccountRetrieved(accountInfo: AccountInfo) {
     /* Example accountInfo:
      * {
      * "account": {
@@ -65,27 +86,13 @@ export function loadPaysimpleJs(auth: CheckoutToken) {
      * }
      */
 
-    console.log('Account Info:', accountInfo);
+    console.log("Account Info: ", accountInfo);
+    const amountElement = document.querySelector("#amount") as HTMLInputElement;
+    const amount = amountElement && parseFloat(amountElement.value);
 
     // Send the accountInfo to your server to collect a payment
     // for an existing customer
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8080/payment');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function (e) {
-      if (xhr.status < 300) {
-        const data = JSON.parse(this.response);
-        alert('Successfully created Payment:\nTrace #: ' + data.TraceNumber);
-      } else {
-        alert(
-          'Failed to create Payment: (' + xhr.status + ') ' + xhr.responseText
-        );
-      }
-    };
-    // TODO: Tide up this code
-    accountInfo.amount = document.querySelector('#amount').value;
-    console.log('account info modified', accountInfo);
-    xhr.send(JSON.stringify(accountInfo));
+    sendPayment({ ...accountInfo, amount });
   }
   // Submit button event listener -- triggered when the user clicks
   // the submit button.
