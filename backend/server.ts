@@ -24,6 +24,20 @@ app.get(
   }
 );
 
+app.get(
+  "/getCheckoutToken",
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      res.status(200).json({
+        message: "Hurray!! But checkout token is not available, so sad",
+        success: true,
+      });
+    } catch (error: unknown) {
+      next(new Error((error as Error).message));
+    }
+  }
+);
+
 app.listen(port, () => {
   console.log(`🚀 ~ Server is up and running on port ${port}`);
 });

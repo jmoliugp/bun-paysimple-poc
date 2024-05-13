@@ -37,7 +37,7 @@ export const merchantFormSchemaInitialValues = {
   amount: 0,
 };
 
-export type MerchantFormState = z.infer<typeof paymentFormSchema>;
+export type MerchantFormState = z.infer<typeof merchantFormSchema>;
 export type MerchantStateFieldErrors = {
   [x: string]: string[] | undefined;
   [x: number]: string[] | undefined;
