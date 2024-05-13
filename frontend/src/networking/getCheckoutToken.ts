@@ -1,10 +1,15 @@
-import { Endpoints, axios } from "./axios";
+import { Endpoints, axios } from './axios';
 
-type Response = Record<string, never>;
+interface ResponseToken {
+  message: string;
+  token: string;
+  success: boolean;
+}
 
-export const getCheckoutToken = async (): Promise<Response> => {
-  const rawResponse = await axios.get<Response>(Endpoints.GetCheckoutToken);
-  console.log("🚀 ~ auth ~ rawResponse:", rawResponse.data);
+export const getCheckoutToken = async (): Promise<string> => {
+  const rawResponse = await axios.get<ResponseToken>(
+    Endpoints.GetCheckoutToken
+  );
 
-  return {};
+  return rawResponse.data.token;
 };

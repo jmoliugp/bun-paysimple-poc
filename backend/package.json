@@ -14,6 +14,11 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "@types/cors": "^2.8.17",
+    "@types/request": "^2.48.12",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.18.2",
+    "request": "^2.88.2"
   }
 }

@@ -1,7 +1,7 @@
-import clsx from "clsx";
-import React, { ChangeEvent } from "react";
-import { PaymentFieldErrors, PaymentFormState } from "../schemas";
-import { camelCaseToTitleCase } from "../utils/camelCaseToTitleCase";
+import clsx from 'clsx';
+import React, { ChangeEvent } from 'react';
+import { MerchantFormState, MerchantStateFieldErrors } from '../schemas';
+import { camelCaseToTitleCase } from '../utils/camelCaseToTitleCase';
 
 type Props<Form, FormErrors> = {
   errors: FormErrors;
@@ -11,7 +11,7 @@ type Props<Form, FormErrors> = {
 };
 
 export const FormField: React.FC<
-  Props<PaymentFormState, PaymentFieldErrors>
+  Props<MerchantFormState, MerchantStateFieldErrors>
 > = ({ errors, field, formfields, handleInputChange }) => {
   const isInvalid = errors[field];
 
@@ -19,11 +19,12 @@ export const FormField: React.FC<
     <div key={field}>
       <input
         name={field}
-        value={formfields[field as keyof PaymentFormState]}
+        id={field}
+        value={formfields[field as keyof MerchantFormState]}
         onChange={handleInputChange}
         placeholder={camelCaseToTitleCase(field)}
-        className={clsx("p-2 border border-gray-300", {
-          "border-red-500": isInvalid,
+        className={clsx('p-2 border border-gray-300', {
+          'border-red-500': isInvalid,
         })}
       />
       {errors[field] && <div className="text-red-500 text-xs">{isInvalid}</div>}

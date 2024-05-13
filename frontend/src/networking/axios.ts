@@ -1,18 +1,18 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export enum Endpoints {
-  GetCheckoutToken = "/getCheckoutToken",
+  GetCheckoutToken = '/getCheckoutToken',
 }
 
 export enum QueryKeys {
-  CheckoutToken = "CheckoutToken",
+  CheckoutToken = 'CheckoutToken',
 }
 
 export type AxiosConfig = Record<string, unknown>;
 
 const initHttpClient = () => {
   const axios = Axios.create({
-    baseURL: "",
+    baseURL: 'http://localhost:8080/',
   });
 
   return { axios };
