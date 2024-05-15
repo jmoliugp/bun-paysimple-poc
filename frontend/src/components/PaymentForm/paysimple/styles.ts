@@ -51,6 +51,46 @@ interface Styles {
   "validation.bankName"?: ValidationStyles;
 }
 
+const container: ContainerStyles = {
+  focus: {
+    borderColor: "#3b82f6",
+  },
+  hover: {
+    borderColor: "#2563eb",
+  },
+};
+
+const label: LabelStyles = {
+  color: "#D1D5DB",
+  focus: {
+    color: "#3b82f6",
+  },
+  hover: {
+    color: "#2563eb",
+  },
+};
+
+const field: FieldStyles = {
+  focus: {
+    borderColor: "#3b82f6",
+  },
+  hover: {
+    borderColor: "#2563eb",
+  },
+  placeholder: {
+    color: "#9ca3af",
+  },
+};
+
+const validation: ValidationStyles = {
+  focus: {
+    color: "#dc2626",
+  },
+  hover: {
+    color: "#b91c1c",
+  },
+};
+
 export const styles: Styles = {
   // Styles the body of the iframe's page
   body: {
@@ -76,70 +116,14 @@ export const styles: Styles = {
   //   },
   // },
   // Styles a container for a specific field name
-  "container.cardNumber": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
-  "container.expiration": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
-  "container.cvv": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
-  "container.postalCode": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
-  "container.routingNumber": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
-  "container.accountNumber": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
-  "container.accountType": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
-  "container.bankName": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-  },
+  "container.cardNumber": container,
+  "container.expiration": container,
+  "container.cvv": container,
+  "container.postalCode": container,
+  "container.routingNumber": container,
+  "container.accountNumber": container,
+  "container.accountType": container,
+  "container.bankName": container,
   // Provides styles that will apply to all labels (can be overridden/extended for a specific field name - see below)
   label: {
     fontWeight: "bold",
@@ -155,78 +139,14 @@ export const styles: Styles = {
     },
   },
   // Styles a label for a specific field name
-  "label.cardNumber": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
-  "label.expiration": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
-  "label.cvv": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
-  "label.postalCode": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
-  "label.routingNumber": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
-  "label.accountNumber": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
-  "label.accountType": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
-  "label.bankName": {
-    color: "#D1D5DB",
-    focus: {
-      color: "#3b82f6",
-    },
-    hover: {
-      color: "#2563eb",
-    },
-  },
+  "label.cardNumber": label,
+  "label.expiration": label,
+  "label.cvv": label,
+  "label.postalCode": label,
+  "label.routingNumber": label,
+  "label.accountNumber": label,
+  "label.accountType": label,
+  "label.bankName": label,
   // Provides styles that will apply to all inputs (can be overridden/extended for a specific field name - see below)
   field: {
     width: "100%",
@@ -248,94 +168,14 @@ export const styles: Styles = {
     },
   },
   // Styles an input for a specific field name
-  "field.cardNumber": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
-  "field.expiration": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
-  "field.cvv": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
-  "field.postalCode": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
-  "field.routingNumber": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
-  "field.accountNumber": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
-  "field.accountType": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
-  "field.bankName": {
-    focus: {
-      borderColor: "#3b82f6",
-    },
-    hover: {
-      borderColor: "#2563eb",
-    },
-    placeholder: {
-      color: "#9ca3af",
-    },
-  },
+  "field.cardNumber": field,
+  "field.expiration": field,
+  "field.cvv": field,
+  "field.postalCode": field,
+  "field.routingNumber": field,
+  "field.accountNumber": field,
+  "field.accountType": field,
+  "field.bankName": field,
   // Provides styles that will apply to all validation messages (can be overridden/extended for a specific field name - see below)
   validation: {
     color: "#ef4444",
@@ -351,68 +191,12 @@ export const styles: Styles = {
     },
   },
   // Styles a validation message for a specific field name
-  "validation.cardNumber": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
-  "validation.expiration": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
-  "validation.cvv": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
-  "validation.postalCode": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
-  "validation.routingNumber": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
-  "validation.accountNumber": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
-  "validation.accountType": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
-  "validation.bankName": {
-    focus: {
-      color: "#dc2626",
-    },
-    hover: {
-      color: "#b91c1c",
-    },
-  },
+  "validation.cardNumber": validation,
+  "validation.expiration": validation,
+  "validation.cvv": validation,
+  "validation.postalCode": validation,
+  "validation.routingNumber": validation,
+  "validation.accountNumber": validation,
+  "validation.accountType": validation,
+  "validation.bankName": validation,
 };
